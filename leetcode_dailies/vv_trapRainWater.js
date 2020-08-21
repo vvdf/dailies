@@ -98,7 +98,29 @@ Potential solution 2:
     
     What makes a definitive matching right wall? When the last and current cell is positive (as I'm traversing
     through the array)
-     
+*/
 
+/*
+
+  possible solution:
+    start at the highest, explore left and right, finding the next highest in either direction, counting the water
+    in between, and removing/ignoring them accordingly (perhaps just maximizing them out)
+
+    possibly start by creating an ordered list by height
+    [{ tallest value, index}, {next tallest, index}]
+
+    and iterating through this list accordingly as long as index of current search isn't already cleared out
+
+    ie:
+      031452103
+      ----X---- (5 is marked as explored as we being to start exploring its sides)
+      5 is tallest we count the next tallest on either side
+
+
+      031452103
+      ----XXXX- (5 is marked as explored as we being to start exploring its sides)
+
+      so we erase ones AFTER we xplore it, AND erase the water cells in between, leaving just the wall
+      so that it can then be explored on the other side
 
 */
