@@ -1,23 +1,20 @@
-// subsets II
+// https://leetcode.com/problems/subsets-ii/
+// Runtime: 116 ms, faster than 15.19% of JavaScript online submissions for Subsets II.
+// Memory Usage: 41.7 MB, less than 8.42% of JavaScript online submissions for Subsets II.
 
-/**
- * @param {number[]} nums
- * @return {number[][]}
- */
- 
 var subsetsWithDup = function(nums) {
 // 	instantiate powerset as an object
 	let powerSet = {};
 	let result = [];
+	nums.sort((a, b) => a - b); // sorting to keep the same keysets in the same order ie 212 = 122
 
 	const step = (setSoFar, setToExplore) => {
-		setSoFar.sort();
+		setSoFar.sort((a, b) => a - b); // sorting to keep the same keysets in the same order ie 212 = 122
 		powerSet[JSON.stringify(setSoFar)] = true;
 		for (let i = 0; i < setToExplore.length; i++) {
 			let nextSet = setSoFar.slice();
-			let nextExploreSet = setToExplore.slice();
-			nextSet.push(setToExplore[i])
-			nextExploreSet.splice(i, 1);
+			let nextExploreSet = setToExplore.slice(i + 1); // only explore using members beyond this point
+			nextSet.push(setToExplore[i]);
 			step(nextSet, nextExploreSet);
 		}
 	};
@@ -25,13 +22,15 @@ var subsetsWithDup = function(nums) {
 	step([], nums);
 
 	for (let key in powerSet) {
-		result.push(key.split('').map(char => Number(char)));
+		result.push(JSON.parse(key));
 	}
 
 	return result;
 };
 
-console.log(subsetsWithDup([1, 2]));
+// console.log(subsetsWithDup([1, 2]));
+// console.log(subsetsWithDup([1, 2, 2]));
+console.log(subsetsWithDup([1,2,3,4,5,6,7,8,10,0]));
 
 /*
 given a collection of ints, that might contain dupe numbers, return all possible subsets, aka the power set.
