@@ -1,50 +1,48 @@
-// Installed npm packages: jquery underscore request express
-// jade shelljs passport http sys lodash async mocha chai sinon
-// sinon-chai moment connect validator restify ejs ws co when
-// helmet wrench brain mustache should backbone forever debug jsdom
+// https://leetcode.com/submissions/detail/383958500/
 
-const mapEmpty = (inputArray) => inputArray.reduce((acc, val) => acc + val) < 2;
-// let test = [1, 2, 3, 4, 5];
-// let test2 = [0, 0, 0];~
-// console.log(mapEmpty(test2));
-
-const trapRainWater = (elevMap) => {
+const trap = (elevMap) => {
   let waterCells = 0;
-  
-  while (!mapEmpty(elevMap)) {
-    let leftWallFound = false;
-    let rightWallFound = false;
-    
-    for (let i = 0; i < elevMap.length && !leftWallFound; i++) {
-      if (elevMap[i] < 1) {
-        elevMap[i] += 1;
-      } else if (elevMap[i] >= 1) {
-        leftWallFound = true;
+  let startIdx = 0;
+  let endIdx = elevMap.length;
+  const delta = () => endIdx - startIdx;
+
+  let continueSearch = true;
+
+  // traverse until delta of remaining placements <= 2
+  while (continueSearch) {
+    // update start idx
+    for (let i = startIdx; i < endIdx; i++) {
+      if (elevMap[i] > 0 || i === endIdx - 1) {
+        startIdx = i;
+        break;
       }
     }
-    
-    for (let i = elevMap.length - 1; i >= 0 && !rightWallFound; i--) {
-      if (elevMap[i] < 1) {
-        elevMap[i] += 1;
-      } else if (elevMap[i] >= 1) {
-        rightWallFound = true;
+
+    // update endidx
+    for (let j = endIdx - 1; j >= startIdx; j--) {
+      if (elevMap[j] > 0 || j === startIdx) {
+        endIdx = j + 1;
+        break;
       }
     }
-    
-    for (let i = 0; i < elevMap.length; i++) {
-      if (elevMap[i] < 1) {
+
+    // run through and count 0s
+    continueSearch = delta() < 2 ? false : true;
+    for (let k = startIdx; k < endIdx && continueSearch; k++) {
+      if (elevMap[k] < 1) {
         waterCells += 1;
+      } else if (elevMap[k] > 0) {
+        elevMap[k] -= 1;
       }
     }
-    
-    elevMap.map(val => val - 1);
-    console.log(elevMap);
   }
 
   return waterCells;
 };
 
+console.log(trapRainWater([0, 1, 1, 1, 0]));
 console.log(trapRainWater([0,1,0,2,1,0,1,3,2,1,2,1]) === 6);
+console.log(trapRainWater([0,1,0,2,1,0,1,3,2,1,2,1]));
 
 // FIX IMPLEMENTATION
 // TRY CUTTING OFF SIDES TO IMPROVE ITERATION SPEED
