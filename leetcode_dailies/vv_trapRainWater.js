@@ -1,48 +1,131 @@
 // https://leetcode.com/submissions/detail/383958500/
+// Runtime: 88 ms, faster than 60.71% of JavaScript online submissions for Trapping Rain Water.
+// Memory Usage: 39.6 MB, less than 7.13% of JavaScript online submissions for Trapping Rain Water.
 
-const trap = (elevMap) => {
-  let waterCells = 0;
-  let startIdx = 0;
-  let endIdx = elevMap.length;
-  const delta = () => endIdx - startIdx;
+function DLLNode(val, prev = null, next = null) {
+  this.val = val;
+  this.prev = prev;
+  this.next = next;
+}
 
-  let continueSearch = true;
+const convertArrayToDLL = (arr) => {
+  let rootNode = null;
+  let lastNode = null;
 
-  // traverse until delta of remaining placements <= 2
-  while (continueSearch) {
-    // update start idx
-    for (let i = startIdx; i < endIdx; i++) {
-      if (elevMap[i] > 0 || i === endIdx - 1) {
-        startIdx = i;
-        break;
-      }
+  for (let i = 0; i < arr.length; i++) {
+    let newNode = new DLLNode(arr[i], lastNode, null);
+
+    if (i < 1) {
+      rootNode = newNode;
+    } else {
+      lastNode.next = newNode;
     }
 
-    // update endidx
-    for (let j = endIdx - 1; j >= startIdx; j--) {
-      if (elevMap[j] > 0 || j === startIdx) {
-        endIdx = j + 1;
-        break;
-      }
-    }
-
-    // run through and count 0s
-    continueSearch = delta() < 2 ? false : true;
-    for (let k = startIdx; k < endIdx && continueSearch; k++) {
-      if (elevMap[k] < 1) {
-        waterCells += 1;
-      } else if (elevMap[k] > 0) {
-        elevMap[k] -= 1;
-      }
-    }
+    newNode.prev = lastNode;
+    lastNode = newNode;
   }
 
-  return waterCells;
+  return rootNode;
 };
 
-console.log(trapRainWater([0, 1, 1, 1, 0]));
-console.log(trapRainWater([0,1,0,2,1,0,1,3,2,1,2,1]) === 6);
-console.log(trapRainWater([0,1,0,2,1,0,1,3,2,1,2,1]));
+const trap = (elevMap) => {
+  // convert array into a doubly linked list, to treat as pages so we can erase
+  // whole columns after exploring them.
+  // explore LL keeping track of address of "tallestSoFar" node
+  // traverse left from node to find address of next tallest from left
+    // re-traverse to count water in between, deleting each "page" or double LL node
+    // along the way
+    // at final node sew it up to point to the next node being whatever the rightmost
+    // wall is after exploring that side too
+    // so in the end, LeftWall's Node.next = RightWall's Node AND vice versa
+  let waterCellCount = 0;
+  let root = convertArrayToDLL(elevMap);
+
+  const countWaterBetween = (leftNode, rightNode) => {
+    if (leftNode === null || rightNode === null) {
+      return;
+    }
+
+    let lowerHeight = leftNode.val <= rightNode.val ? leftNode.val : rightNode.val;
+
+    for (let currNode = leftNode.next; currNode !== rightNode; currNode = currNode.next) {
+      waterCellCount += lowerHeight - currNode.val;
+    }  
+  };
+
+  // find the tallest, traverse left to find next tallest and solve for water in between
+  // repeat in other direction, mark current as explored AND remove from remaining idx to check
+  // repeat until remaining idx to check length = 0
+
+  while (root && root.next && root.next.next) {
+    // find tallest value + address
+    let tallestNode = root;
+    let leftWallNode = null;
+    let rightWallNode = null;
+
+    for (let currNode = root; currNode; currNode = currNode.next) {
+      if (currNode.val >= tallestNode.val) {
+        tallestNode = currNode;
+      }
+    }
+
+    // explore left
+    leftWallNode = tallestNode.prev;
+    for (let currNode = tallestNode.prev; currNode; currNode = currNode.prev) {
+      if (currNode.val >= leftWallNode.val) {
+        leftWallNode = currNode;
+      }
+
+      if (currNode.val === tallestNode.val) {
+        break;
+      }
+    }
+
+    countWaterBetween(leftWallNode, tallestNode);
+
+     // explore right
+    rightWallNode = tallestNode.next;
+    for (let currNode = tallestNode.next; currNode; currNode = currNode.next) {
+      if (currNode.val >= rightWallNode.val) {
+        rightWallNode = currNode;
+      }
+
+      if (currNode.val === tallestNode.val) {
+        break;
+      }
+    }
+
+    countWaterBetween(tallestNode, rightWallNode);
+
+    // stitch walls together
+    if (leftWallNode) {
+      leftWallNode.next = rightWallNode;
+    } else {
+      // if no left wall is found, we need to move our root for future runs
+      root = rightWallNode;
+    }
+
+    if (rightWallNode) {
+      rightWallNode.prev = leftWallNode;
+    }
+
+    console.log(waterCellCount)
+  }
+
+  return waterCellCount;
+};
+
+
+// console.log(convertArrayToDLL([1, 2, 3]));
+// console.log(trap([4, 2, 3]));
+// console.log(trap([0, 1, 1, 1, 0]));
+// console.log(trap([0, 1, 3, 4, 5]));
+// console.log(trap([0, 1, 5, 4, 5]));
+// console.log(trap([2, 1, 0, 3, 1]));
+// console.log(trap([5, 3, 5, 0, 5]));
+console.log(trap([2,2,0,4,6,2,0,6,1,4,4,7,9,6,6,3,9,6]));
+// console.log(trap([0,1,0,2,1,0,1,3,2,1,2,1]) === 6);
+// console.log(trap([0,1,0,2,1,0,1,3,2,1,2,1]));
 
 // FIX IMPLEMENTATION
 // TRY CUTTING OFF SIDES TO IMPROVE ITERATION SPEED
