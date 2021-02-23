@@ -33,7 +33,7 @@ const longestNiceSubstring = function(s) {
 
 /*
 	input: string
-	output: string (first largest found word)
+	output: string (first largest found valid word)
 	constraints: none
 	edge cases: string is empty, funky arrangement of matching cases, ie: 'yAbBcCeDdbbbbaE'
 
