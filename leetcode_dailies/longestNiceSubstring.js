@@ -1,5 +1,5 @@
 // Longest Nice Substring, https://leetcode.com/problems/longest-nice-substring
-// Runtime: 612 ms, faster than 100.00% of JavaScript online submissions for Longest Nice Substring.
+// Runtime: 416 ms, faster than 100.00% of JavaScript online submissions for Longest Nice Substring.
 // Memory Usage: 55.3 MB, less than 100.00% of JavaScript online submissions for Longest Nice Substring.
 
 const niceWordChecker = (word) => {
