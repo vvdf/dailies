@@ -34,6 +34,10 @@ fn main() {
     println!("1400: {}", Solution::roman_to_int(String::from("MCD")));
 }
 /*  
+ *  Leetcode:https://leetcode.com/problems/roman-to-integer/
+ *  Runtime: 4 ms, faster than 62.58% of Rust online submissions
+ *  Memory Usage: 2.2 MB, less than 22.58% of Rust online submissions
+ *  
  *  Goal: Convert input roman numeral string into its decimal value
  *
  *  In: String
@@ -51,5 +55,5 @@ fn main() {
  *          modification: rather than checking to the right, just track
  *          what has been traversed through last and remove double it
  *          if it is less than
- *      - use match syntax for simple conversions of char value to decimal
+ *      - use match syntax for quick conversions of char value to decimal
  */
