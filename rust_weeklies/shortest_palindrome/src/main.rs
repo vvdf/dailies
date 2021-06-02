@@ -4,7 +4,6 @@ impl Solution {
     pub fn shortest_palindrome(s: String) -> String {
         let mut word = String::from(&s);
         let idx = Solution::find_internal_palindrome(&s);
-        println!("{}", idx);
         for c in String::from(&s[idx..]).chars() {
             word = String::from(c.to_string()) + &word[..];
         }
@@ -45,8 +44,8 @@ fn main() {
 
 /*  
  *  Leetcode: https://leetcode.com/problems/shortest-palindrome
- *  Runtime: 1344ms, faster than 20.00% of Rust online submissions
- *  Memory Usage: 2.6MB, less than 20.00% of Rust online submissions
+ *  Runtime: 1064ms, faster than 20.00% of Rust online submissions
+ *  Memory Usage: 2.3MB, less than 80.00% of Rust online submissions
  *
  *  Goal: given string 's', convert 's' to a palindrome by adding chars
  *      in front, return shortest palindrome you can find
