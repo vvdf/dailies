@@ -10,8 +10,8 @@ impl Solution {
     }
 
     pub fn palindrome_validity_check(s: String) -> bool {
-        for (i, rc) in s.chars().rev().enumerate() {
-            let c = s.chars().nth(i).unwrap();
+        for (c, rc) in s.chars().zip(s.chars().rev()) {
+            // let c = s.chars().nth(i).unwrap();
             if c != rc {
                 return false;
             }
