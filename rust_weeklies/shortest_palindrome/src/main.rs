@@ -2,12 +2,27 @@ struct Solution {}
 
 impl Solution {
     pub fn shortest_palindrome(s: String) -> String {
-        String::from("test")
+        if Solution::palindrome_validity_check(s) {
+            String::from("true")
+        } else {
+            String::from("false")
+        }
+    }
+
+    pub fn palindrome_validity_check(s: String) -> bool {
+        for (i, rc) in s.chars().rev().enumerate() {
+            let c = s.chars().nth(i).unwrap();
+            if c != rc {
+                return false;
+            }
+        }
+        true
     }
 }
 
 fn main() {
     println!("{}", Solution::shortest_palindrome(String::from("example")));
+    println!("{}", Solution::shortest_palindrome(String::from("wawaw")));
 }
 
 /*  
