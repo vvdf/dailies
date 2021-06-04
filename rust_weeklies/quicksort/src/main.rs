@@ -1,12 +1,15 @@
+
 struct Solution {}
 
 impl Solution {
     pub fn sort_array(nums: Vec<i32>) -> Vec<i32> {
+        nums
     }
 }
 
 fn main() {
-    println!("Hello, world!");
+    let sort_me = vec![5, 7, 3, 1, 9];
+    println!("{:?}", Solution::sort_array(sort_me));
 }
 
 /*
