@@ -3,13 +3,40 @@ struct Solution {}
 
 impl Solution {
     pub fn sort_array(nums: Vec<i32>) -> Vec<i32> {
-        nums
+        if nums.len() < 1 {
+            return nums;
+        }
+        let mut copy = nums.clone();
+        let mut left: Vec<i32> = Vec::new();
+        let mut pivot = vec![copy.pop().unwrap()];
+        let mut right: Vec<i32> = Vec::new();
+
+        for n in copy.iter() {
+            if n < &pivot[0] {
+                left.push(*n);
+            } else if n > &pivot[0] {
+                right.push(*n);
+            } else {
+                pivot.push(*n);
+            }
+        }
+        left = Solution::sort_array(left);
+        right = Solution::sort_array(right);
+        left.append(&mut pivot);
+        left.append(&mut right);
+        left
+    }
+
+    pub fn sort_array_inplace(nums: Vec<i32>) -> Vec<i32> {
+        
     }
 }
 
 fn main() {
     let sort_me = vec![5, 7, 3, 1, 9];
+    let sort_me2 = vec![5, 7, 3, 1, 9];
     println!("{:?}", Solution::sort_array(sort_me));
+    println!("{:?}", Solution::sort_array_inplace(sort_me2));
 }
 
 /*
