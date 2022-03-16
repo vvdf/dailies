@@ -18,4 +18,5 @@ var isValid = function(s) {
  * initial ideas:
  *  - create a stack of open brackets, closing them as we go and find
  *      only the matching closing bracket at the top of the stack
+ *    - return true if iterate through whole string and stack empty
  */
