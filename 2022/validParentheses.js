@@ -1,7 +1,24 @@
 var isValid = function(s) {
-};
+  let bracketStack = []; // instantiate stack
+  let keyOpen = { "{": "}", "[": "]", "(": ")" }; // open to closing bracket key
+
+  for (let i = 0; i < s.length; i += 1) {
+    if (keyOpen.hasOwnProperty(s[i])) {
+      bracketStack.push(s[i]); // add open bracket to stack
+    } else if (s[i] === keyOpen[bracketStack[bracketStack.length - 1]]) {
+      bracketStack.pop(); // close bracket where correct last closer is found
+    } else {
+      bracketStack.push(s[i]); // populate bracket length with error
+      break; // end iteration once error found
+    }
+  }
+
+  return bracket.length < 1; // return true if all correct open parentheses have closed
+}
 
 /*
+ * Runtime: 73 ms, faster than 73.52% of JavaScript online submissions for Valid Parentheses.
+ * Memory Usage: 42.1 MB, less than 56.76% of JavaScript online submissions for Valid Parentheses.
  * https://leetcode.com/problems/valid-parentheses/
  *
  * input: string
