@@ -2,7 +2,7 @@ struct Solution {}
 
 impl Solution {
     pub fn is_valid(s: String) -> bool {
-        let bracket_stack = Vec<char>;
+        let bracket_stack: Vec<char> = Vec::new();
     }
 }
 
