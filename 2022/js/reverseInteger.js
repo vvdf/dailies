@@ -1,6 +1,6 @@
 /**
- * @param {number} x
- * @return {number}
+ * Runtime: 110 ms, faster than 34.85% of JavaScript online submissions for Reverse Integer.
+Memory Usage: 43.5 MB, less than 93.88% of JavaScript online submissions for Reverse Integer.
  */
 var reverse = function(x) {
     let result = 0;
@@ -12,3 +12,9 @@ var reverse = function(x) {
     }
     return x < 0 ? result * -1 : result;
 };
+
+/*
+ *
+ *
+ *
+ */
